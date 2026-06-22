@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { GOOGLE_AUTH_URL, GOOGLE_TOKEN_URL, GOOGLE_FIT_SCOPES } from '../utils/constants';
 import { useAuthStore } from '../stores/auth-store';
 
-const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
+const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID ?? '';
 
 const redirectUri = AuthSession.makeRedirectUri({ scheme: 'fatbit' });
 

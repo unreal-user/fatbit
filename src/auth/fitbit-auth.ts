@@ -3,8 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { FITBIT_AUTH_URL, FITBIT_TOKEN_URL, FITBIT_SCOPES } from '../utils/constants';
 import { useAuthStore } from '../stores/auth-store';
 
-// Users must set these in .env or constants
-const FITBIT_CLIENT_ID = 'YOUR_FITBIT_CLIENT_ID';
+const FITBIT_CLIENT_ID = process.env.EXPO_PUBLIC_FITBIT_CLIENT_ID ?? '';
 
 const redirectUri = AuthSession.makeRedirectUri({ scheme: 'fatbit' });
 

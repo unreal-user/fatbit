@@ -14,7 +14,8 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.fatbit.app"
+      "package": "com.fatbit.app",
+      "allowBackup": false
     },
     "plugins": [
       "expo-router",

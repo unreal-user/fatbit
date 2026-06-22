@@ -8,6 +8,7 @@ import { MealEntry } from '../../components/MealEntry';
 import { CalorieChart } from '../../components/charts/CalorieChart';
 import { COLORS, CALORIE_GOAL } from '../../utils/constants';
 import { formatDate } from '../../utils/date';
+import { encryptField, encryptOptional, decryptField, decryptOptional } from '../../utils/crypto';
 
 export default function CaloriesScreen() {
   const todayMeals = useHealthStore((s) => s.todayMeals);
@@ -18,33 +19,35 @@ export default function CaloriesScreen() {
 
   const today = formatDate(new Date());
 
-  const loadMeals = useCallback(() => {
+  const loadMeals = useCallback(async () => {
     const rows = db.select().from(mealsTable).where(eq(mealsTable.date, today)).all();
-    setTodayMeals(
-      rows.map((r) => ({
+    const decrypted = await Promise.all(
+      rows.map(async (r) => ({
         id: r.id,
         date: r.date,
-        name: r.name,
+        name: await decryptField(r.name),
         calories: r.calories,
-        notes: r.notes,
+        notes: await decryptOptional(r.notes),
         createdAt: r.createdAt,
       })),
     );
+    setTodayMeals(decrypted);
   }, [today, setTodayMeals]);
 
   useEffect(() => {
     loadMeals();
   }, [loadMeals]);
 
-  const handleAddMeal = (meal: { name: string; calories: number; notes: string }) => {
+  const handleAddMeal = async (meal: { name: string; calories: number; notes: string }) => {
     const now = new Date().toISOString();
-    const result = db
-      .insert(mealsTable)
+    const encryptedName = await encryptField(meal.name);
+    const encryptedNotes = await encryptOptional(meal.notes || null);
+    db.insert(mealsTable)
       .values({
         date: today,
-        name: meal.name,
+        name: encryptedName,
         calories: meal.calories,
-        notes: meal.notes || null,
+        notes: encryptedNotes,
         createdAt: now,
       })
       .run();
