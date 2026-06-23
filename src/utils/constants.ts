@@ -40,6 +40,7 @@ export const COLORS = {
   calories: '#ff8c00',
   weight: '#4fc3f7',
   spo2: '#ba68c8',
+  xp: '#ffd700',
 } as const;
 
 // Default goals

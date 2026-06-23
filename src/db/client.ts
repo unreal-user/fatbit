@@ -57,5 +57,22 @@ export async function initDatabase() {
       data_type TEXT PRIMARY KEY,
       last_synced_at TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS battle_state (
+      id TEXT PRIMARY KEY,
+      enemy_id TEXT NOT NULL,
+      enemy_current_hp INTEGER NOT NULL,
+      enemy_max_hp INTEGER NOT NULL,
+      total_defeated INTEGER NOT NULL DEFAULT 0,
+      total_damage_all_time INTEGER NOT NULL DEFAULT 0,
+      last_damage_date TEXT,
+      damage_dealt_today INTEGER NOT NULL DEFAULT 0,
+      healing_received_today INTEGER NOT NULL DEFAULT 0
+    );
+    CREATE TABLE IF NOT EXISTS battle_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      enemy_id TEXT NOT NULL,
+      enemy_max_hp INTEGER NOT NULL,
+      defeated_at TEXT NOT NULL
+    );
   `);
 }

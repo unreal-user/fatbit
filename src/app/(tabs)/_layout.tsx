@@ -52,6 +52,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="restaurant" size={size} color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="battle"
+        options={{
+          title: 'Battle',
+          tabBarIcon: ({ color, size }) => <Ionicons name="flame" size={size} color={color} />,
+        }}
+      />
     </Tabs>
   );
 }

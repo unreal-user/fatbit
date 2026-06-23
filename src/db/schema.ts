@@ -56,3 +56,22 @@ export const syncLog = sqliteTable('sync_log', {
   dataType: text('data_type').primaryKey(),
   lastSyncedAt: text('last_synced_at').notNull(),
 });
+
+export const battleState = sqliteTable('battle_state', {
+  id: text('id').primaryKey(),                       // always 'current'
+  enemyId: text('enemy_id').notNull(),
+  enemyCurrentHp: integer('enemy_current_hp').notNull(),
+  enemyMaxHp: integer('enemy_max_hp').notNull(),
+  totalDefeated: integer('total_defeated').notNull().default(0),
+  totalDamageAllTime: integer('total_damage_all_time').notNull().default(0),
+  lastDamageDate: text('last_damage_date'),           // YYYY-MM-DD
+  damageDealToday: integer('damage_dealt_today').notNull().default(0),
+  healingReceivedToday: integer('healing_received_today').notNull().default(0),
+});
+
+export const battleLog = sqliteTable('battle_log', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  enemyId: text('enemy_id').notNull(),
+  enemyMaxHp: integer('enemy_max_hp').notNull(),
+  defeatedAt: text('defeated_at').notNull(),           // ISO 8601
+});
